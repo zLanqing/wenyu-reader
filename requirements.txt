@@ -1,0 +1,2 @@
+Markdown==3.6
+pywebview==6.2.1
