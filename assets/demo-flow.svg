@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="168" viewBox="0 0 900 168">
+  <rect width="900" height="168" rx="16" fill="#f2f6f6"/>
+  <g font-family="Microsoft YaHei, PingFang SC, sans-serif" text-anchor="middle">
+    <rect x="24" y="23" width="252" height="122" rx="12" fill="#e3ecf0"/>
+    <rect x="324" y="23" width="252" height="122" rx="12" fill="#eee4cb"/>
+    <rect x="624" y="23" width="252" height="122" rx="12" fill="#e1ebe6"/>
+    <g fill="#173848" font-size="26" font-weight="600"><text x="150" y="70">阅读</text><text x="450" y="70">放映</text><text x="750" y="70">标注</text></g>
+    <g fill="#526b76" font-size="18"><text x="150" y="110">文字 · 公式 · 配图</text><text x="450" y="110">隐藏工具栏 · 聚焦内容</text><text x="750" y="110">高亮 · 标红 · 手写圈画</text></g>
+    <g fill="#7d939d" font-size="28"><text x="300" y="94">→</text><text x="600" y="94">→</text></g>
+  </g>
+</svg>

@@ -4,6 +4,22 @@
 
 用于 Windows 的本地 Markdown 阅读器。支持含配图的文档、章节目录、公式、全屏放映、页面缩放、激光指示、高亮与手写笔迹。
 
+## 界面预览
+
+以下截图使用项目自带的 [`功能展示.md`](examples/功能展示.md)，展示实际运行界面。
+
+**阅读界面**：章节目录、数学公式、配图和表格在同一页面呈现。
+
+![文阅阅读界面：章节目录、公式、配图与表格](assets/screenshots/reading.png)
+
+**全屏放映**：隐藏侧栏和顶部工具栏；鼠标移到右上角可调出缩放、激光笔和画笔工具。
+
+![文阅全屏放映界面](assets/screenshots/presentation.png)
+
+**高亮与手写批注**：选中文字高亮或标红，按 P 开启画笔圈画图片重点，支持撤销和单独保存。
+
+![文阅黄色高亮、文字标红和手写圈画效果](assets/screenshots/annotations.png)
+
 ## 下载与运行
 
 在 [Releases](https://github.com/zLanqing/wenyu-reader/releases) 下载 `WenyuReader-Windows-x64.exe`，双击运行，无需安装 Python，也无需将源码放在 EXE 旁边。
