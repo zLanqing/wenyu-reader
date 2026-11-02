@@ -6,13 +6,15 @@
 
 ## 下载与运行
 
-在 [Releases](https://github.com/zLanqing/wenyu-reader/releases) 下载 `文阅_md阅读器.exe`，双击运行，无需安装 Python，也无需将源码放在 EXE 旁边。
+在 [Releases](https://github.com/zLanqing/wenyu-reader/releases) 下载 `WenyuReader-Windows-x64.exe`，双击运行，无需安装 Python，也无需将源码放在 EXE 旁边。
 
 运行条件：
 
 - Windows 10/11，64位。当前发布包为 Windows x64 构建。
 - 已安装 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)。许多电脑已有；缺少时需安装。
 - 数学公式使用联网加载的 MathJax。正文、本地图片及批注操作不依赖 MathJax 网络连接。
+
+下载后也可以将文件重命名为 `文阅_md阅读器.exe`。Release中的 `SHA256SUMS-Windows-x64.txt` 用于校验下载文件。
 
 程序以单文件 EXE 分发，启动时会在系统临时目录解压内置运行组件，因此首次启动可能稍慢。
 
