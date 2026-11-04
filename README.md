@@ -4,9 +4,15 @@
 
 用于 Windows 的本地 Markdown 阅读器。支持含配图的文档、章节目录、公式、全屏放映、页面缩放、激光指示、高亮与手写笔迹。
 
+v0.5.0 更新了打开页、章节导航、工具栏和正文排版，沿用深蓝与金色标识。窄窗口自动使用抽屉目录与紧凑工具栏；大屏限制正文宽度，便于阅读。
+
 ## 界面预览
 
 以下截图使用项目自带的 [`功能展示.md`](examples/功能展示.md)，展示实际运行界面。
+
+**打开界面**：金色入口、深蓝侧栏，直接打开 MD、ZIP 或含配图的文件夹。
+
+![文阅打开界面](assets/screenshots/welcome.png)
 
 **阅读界面**：章节目录、数学公式、配图和表格在同一页面呈现。
 
@@ -44,14 +50,14 @@
 
 ```text
 报告/
-├── 汇报.md
+├── 文档.md
 └── assets/
     └── figure.png
 ```
 
-Markdown 写法：`![图示](assets/figure.png)`。EXE 不包含使用者的论文或文档；分享报告时请同时分享文档与配图，或导出含图片 HTML。
+Markdown 写法：`![图示](assets/figure.png)`。EXE 不包含使用者的文档；分享文档时请同时分享配图，或导出含图片 HTML。
 
-## 汇报与批注
+## 放映与批注
 
 | 操作 | 用法 |
 |---|---|
@@ -106,7 +112,7 @@ python -m venv .venv
 python -m unittest test_reader_app.py
 ```
 
-当前测试覆盖本地图片、中文及空格路径、缺失/空图片提示、文件夹选择、ZIP 与远程图片处理。界面功能另经 Edge 与 WebView2 本机验证；不宣称已在所有 Windows 环境测试。
+当前测试覆盖本地图片、中文及空格路径、缺失/空图片提示、文件夹选择、ZIP 与远程图片处理。本版交互另经 Edge 本机验证，Windows EXE 已完成构建与启动检查；原生全屏切换尚未完成本轮复测，不宣称已在所有 Windows 环境测试。
 
 ## 项目文件
 
@@ -120,3 +126,5 @@ python -m unittest test_reader_app.py
 | `wenyu.spec` | PyInstaller 单文件构建配置 |
 
 图标由项目原有“文”字标识制作；项目使用 Python-Markdown、pywebview、PyInstaller 和 MathJax 等组件，各组件的许可归其权利人所有。本仓库尚未指定项目代码的开源许可证。
+
+本轮界面设计使用 [Hallmark](https://github.com/nutlope/hallmark) 辅助改造，并经实际文档、响应式布局及原有交互检查。Hallmark 是开发阶段工具，使用阅读器无需安装它。

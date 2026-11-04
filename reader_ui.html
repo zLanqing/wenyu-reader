@@ -3,100 +3,300 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>文阅 · Markdown 阅读器</title>
+<title>文阅 Markdown 阅读器</title>
+<meta name="description" content="本地阅读 Markdown 与配图，支持公式、章节目录、全屏放映和手写批注。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23d9c28d'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-size='24' fill='%23122e3e'%3E文%3C/text%3E%3C/svg%3E">
 <style>
-:root{--nav:#122e3e;--nav-muted:#9db3be;--gold:#d9c28d;--ink:#233d4b;--paper:#fff;--page:#f1f5f5;--size:17px}
-[hidden]{display:none!important}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--page);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;font-size:14px}button,a{ -webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #b49a5b;outline-offset:3px}button:disabled{opacity:.45;cursor:default}button{transition:background .18s,color .18s}a{color:#22617a}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:var(--nav);color:#f4f7f6;padding:29px 22px 18px;display:flex;flex-direction:column;z-index:4}.brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:650;letter-spacing:2px}.brand-icon{display:grid;place-items:center;width:32px;height:34px;background:var(--gold);color:var(--nav);border-radius:5px;font-size:25px;font-family:serif}.brand-caption{margin:9px 0 0 44px;font-size:8px;letter-spacing:2.5px;color:var(--nav-muted)}.intro{font-size:19px;font-weight:400;line-height:1.9;margin:32px 0 17px;letter-spacing:.3px}.primary{width:100%;background:var(--gold);border:1px solid var(--gold);color:#162f3a;text-align:left;border-radius:5px;padding:12px 13px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}.primary:hover{background:#e7d4a9}.primary span:first-child{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.section-label{font-size:10px;letter-spacing:1.5px;color:var(--nav-muted);margin:29px 0 11px}.open-button{width:100%;border:1px solid #3a5360;border-radius:4px;background:transparent;color:#d5e0e4;padding:10px 12px;text-align:left;margin-bottom:8px;font-size:12px}.open-button:hover{background:#254454;border-color:#728891}.hint{font-size:10px;line-height:1.9;color:var(--nav-muted);margin:6px 0 18px}.toc{border-top:1px solid #354d5a;padding-top:14px;overflow-y:auto;min-height:55px;flex:1;scrollbar-width:thin;scrollbar-color:#66808d transparent}.toc a{display:block;color:#aebfc7;text-decoration:none;font-size:11px;line-height:1.7;padding:8px 9px;border-left:2px solid transparent;margin-bottom:1px}.toc a:hover,.toc a.active{background:#203f50;color:#f4e1b5;border-left-color:var(--gold)}.toc a.level-1{font-weight:600;color:#dce6ea}.sidebar-footer{font-size:9px;letter-spacing:1px;color:#7893a1;padding-top:14px}.workspace{margin-left:248px}.toolbar{position:sticky;top:0;height:70px;background:#f8faf9f2;border-bottom:1px solid #e3eaea;display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:18px;z-index:3;backdrop-filter:blur(10px)}.file-name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#65a694;margin-right:9px}.toolbar-actions{display:flex;gap:8px;flex-shrink:0}.tool{background:transparent;border:1px solid #dce5e5;border-radius:5px;color:#4b5e68;font-size:11px;padding:8px 10px;white-space:nowrap}.tool:hover{background:#eaf0ef}.mobile-menu{display:none}.status{max-width:1000px;margin:0 auto;padding:17px 0 13px;font-size:11px;line-height:1.7;color:#85939b;display:flex;justify-content:space-between;gap:10px}.content-wrap{padding:0 44px 48px}.paper{zoom:var(--reading-zoom,1);max-width:1000px;min-height:calc(100vh - 157px);margin:0 auto;background:var(--paper);padding:56px 58px 72px;box-shadow:0 3px 22px #15353e03;font-size:var(--size);line-height:1.9;overflow-wrap:anywhere}.paper h1{font-size:1.85em;line-height:1.6;color:#193e50;letter-spacing:.3px;margin:0 0 38px;font-weight:750}.paper h2{font-size:1.4em;line-height:1.6;color:#214858;margin:38px 0 18px;padding-bottom:12px;border-bottom:1px solid #e1e8e9}.paper h3{font-size:1.13em;color:#254b5b;margin:30px 0 12px}.paper h4{font-size:1em;margin:24px 0 10px}.paper p{margin:15px 0}.paper strong{font-weight:650;color:#263f49}.paper blockquote{margin:22px 0;padding:8px 20px;border-left:3px solid #b9a06c;background:#f7f7f1}.paper blockquote p{margin:6px 0}.paper table{border-collapse:collapse;width:100%;font-size:.86em;line-height:1.75;margin:24px 0;display:block;overflow-x:auto}.paper th,.paper td{border:1px solid #d8e2e5;padding:12px 13px;text-align:left;vertical-align:top;min-width:80px}.paper th{background:#edf3f3;font-weight:600;white-space:nowrap}.paper hr{border:0;border-top:1px solid #e0e7e7;margin:40px 0}.paper img{display:block;max-width:100%;max-height:900px;width:auto;height:auto;object-fit:contain;margin:26px auto 10px;cursor:zoom-in}.paper p:has(>img)+p:has(>em:only-child){font-size:.83em;color:#7a8991;text-align:center;line-height:1.7;margin-top:5px}.paper pre{padding:18px 20px;background:#f2f5f5;border:1px solid #e1e8e8;border-radius:5px;overflow:auto;line-height:1.65}.paper code{font-family:Consolas,monospace;font-size:.9em;background:#eef3f3;border-radius:3px;padding:2px 5px}.paper pre code{background:none;padding:0}.paper :is(h1,h2,h3,h4){scroll-margin-top:100px}.paper ul,.paper ol{padding-left:1.7em}.empty{text-align:center;padding:72px 0 90px}.empty-mark{color:#b8a16e;font-size:45px;margin-bottom:14px;font-family:serif}.empty h1{font-size:30px;margin:10px 0 15px}.empty p{font-size:14px;color:#819098;line-height:2.1}.empty .empty-open{margin-top:18px;max-width:230px;display:inline-flex}.notice{max-width:1000px;margin:0 auto 14px;padding:11px 16px;background:#fff7e6;border:1px solid #ead9b3;border-radius:4px;color:#806334;font-size:12px;line-height:1.8}.notice[hidden],.status[hidden]{display:none}.image-error{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;border:1px dashed #d6c6a6;color:#8f7650;background:#fbf8f1;min-height:130px;padding:22px;margin:24px 0 10px;text-align:center;font-size:13px}.image-error small{font-size:11px;color:#9c8a6b;word-break:break-all}.toast{position:fixed;bottom:24px;left:calc(50% + 124px);transform:translateX(-50%);padding:12px 22px;background:#173848;color:#fff;border-radius:6px;box-shadow:0 5px 24px #1233;z-index:10;font-size:13px;max-width:90vw}.toast:empty{display:none}dialog{border:0;border-radius:8px;padding:20px;background:#fff;max-width:94vw;max-height:94vh;box-shadow:0 8px 60px #0005}dialog::backdrop{background:#092330b8}dialog img{display:block;max-width:88vw;max-height:80vh;object-fit:contain}dialog .close-image{float:right;border:0;background:#edf2f2;padding:6px 12px;border-radius:4px;margin-bottom:12px}dialog p{font-size:12px;color:#71838b;margin-bottom:0}.loading{cursor:progress}.loading button{pointer-events:none}.scrim{display:none}
-@media(min-width:1500px){.content-wrap{padding-left:70px;padding-right:70px}}
-@media(max-width:1100px){.sidebar{width:220px;padding-left:18px;padding-right:18px}.workspace{margin-left:220px}.content-wrap{padding:0 30px 36px}.paper{padding:44px 40px}.toolbar{padding:0 24px}.intro{font-size:18px}.toast{left:calc(50% + 110px)}}
-@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:transform .2s;width:240px}.sidebar.open{transform:translateX(0)}.workspace{margin-left:0}.toolbar{height:60px;padding:0 14px;gap:10px}.mobile-menu{display:block;border:0;background:transparent;font-size:20px;color:var(--nav)}.toolbar-actions{gap:4px}.tool{padding:7px;font-size:10px}.content-wrap{padding:0 12px 24px}.status{padding:12px 3px;font-size:10px}.paper{padding:30px 22px;font-size:calc(var(--size) - 1px);min-height:calc(100vh - 124px)}.paper h1{font-size:1.6em}.paper table{font-size:.82em}.paper th,.paper td{padding:8px}.toast{left:50%;width:max-content}.scrim.visible{display:block;position:fixed;inset:0;background:#102c3c66;z-index:4}.empty{padding-top:60px}.empty h1{font-size:26px}}
-@media print{body{background:#fff}.sidebar,.toolbar,.status,.notice,.toast,dialog,.scrim{display:none!important}.workspace{margin:0}.content-wrap{padding:0}.paper{box-shadow:none;padding:0;max-width:none;min-height:0;font-size:11pt;line-height:1.75}.paper h1{font-size:22pt}.paper h2,.paper h3{break-after:avoid}.paper img{max-height:230mm;break-inside:avoid}.paper table{display:table;font-size:10pt}.paper a{color:inherit;text-decoration:none}.paper tr{break-inside:avoid}.paper pre{white-space:pre-wrap}@page{size:A4;margin:18mm}}
-body.presenting{background:#fff}
-body.presenting :is(.sidebar,.toolbar,.status,.notice,.scrim,.toast){display:none!important}
-body.presenting .workspace{margin-left:0}
-body.presenting .content-wrap{padding:0}
-body.presenting .paper{max-width:1200px;min-height:calc(100vh / var(--reading-zoom,1));padding:44px clamp(24px,5vw,72px) 70px;box-shadow:none}
-body.presenting .paper :is(h1,h2,h3,h4){scroll-margin-top:24px}
-.presentation-controls{position:fixed;top:14px;right:18px;z-index:9;display:flex;gap:5px;padding:6px;background:#173848ed;border:1px solid #ffffff45;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
-.presentation-controls button{color:#fff;border:1px solid #ffffff40;background:transparent;border-radius:5px;padding:8px 10px;font-size:12px}
-.presentation-controls button:hover,.presentation-controls button[aria-pressed=true]{background:#ffffff25}
-.presentation-controls button:disabled{opacity:.35}
-body.show-presentation-exit .presentation-controls,.presentation-controls:hover,.presentation-controls:has(:focus-visible){opacity:1;pointer-events:auto}
-.laser-dot{position:fixed;z-index:1000;width:13px;height:13px;border:2px solid #fff;border-radius:50%;background:#ff2540;box-shadow:0 0 4px 2px #ff1839,0 0 15px 4px #ff254080;transform:translate(-50%,-50%);pointer-events:none}
-body.laser-active #paper,body.laser-active #paper *,body.laser-active #image-dialog img{cursor:none;user-select:none}
-[data-reader-mark=highlight]{background:#ffed87;color:inherit;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-[data-reader-mark=red]{color:#cf263f!important}
-.annotation-menu{position:fixed;z-index:12;max-width:calc(100vw - 20px);padding:7px;background:#173848;color:white;border-radius:8px;box-shadow:0 4px 18px #122e3e40;font-size:12px}
-.annotation-actions{display:flex;gap:4px;flex-wrap:wrap}
-.annotation-menu button{background:transparent;border:1px solid #ffffff45;border-radius:4px;color:inherit;padding:6px 8px;font-size:12px}
-.annotation-menu button:hover{background:#ffffff20}
-.annotation-menu #annotation-yellow{color:#ffed87}.annotation-menu #annotation-red{color:#ff9ca9}
-.annotation-status{display:block;font-size:10px;color:#c5d5dd;margin:5px 3px 0}
-@media(max-width:600px){.presentation-controls{right:8px;gap:3px}.presentation-controls button{padding:7px;font-size:11px}}
-@media print{.presentation-controls,.annotation-menu,.laser-dot{display:none!important}.paper{zoom:1}body.presenting .paper{max-width:none;min-height:0;padding:0}}
-.paper{position:relative}
-.ink-overlay{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:1}
-.ink-overlay path{fill:none;stroke:#e52b3f;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
-body.pen-active #paper{user-select:none}
-body.pen-active .ink-overlay{pointer-events:auto;touch-action:none;cursor:crosshair}
-.presentation-controls{max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:flex-end}
-@media print{.ink-overlay{display:none!important}}
+/* Hallmark · shape: app screen · genre: editorial · theme: brand · redesign: full
+ * paper: oklch(98.5% 0.003 236) · accent: oklch(82.0871% 0.074084 87.1856)
+ * display: Microsoft YaHei · body: Microsoft YaHei · nav: chapter rail and compact toolbar
+ * signature: the actual Markdown document · states: empty, loading, error, full
+ * axes: light/system-sans/warm · posture: Restrained · contrast: checked in sweep · v2.0.0 */
+/* Hallmark · dropped heading "把文件打开， 把注意力留给内容。" · retained the same words as supporting text in the sidebar */
+/* Hallmark · pre-emit critique: preserve reading measure and every existing action; weakest: narrow toolbar, split controls into two rows */
+/* Hallmark · finish-review: independent subagent ship; desktop export capability restored; mobile short-label wrapping accepted */
+:root {
+  --nav: oklch(28.7609% 0.044742 236.2816);
+  --nav-raised: oklch(35% 0.043 236);
+  --nav-rule: oklch(43% 0.035 236);
+  --nav-muted: oklch(80% 0.018 236);
+  --nav-ink: oklch(97% 0.006 236);
+  --gold: oklch(82.0871% 0.074084 87.1856);
+  --gold-hover: oklch(87% 0.066 87);
+  --gold-ink: oklch(24% 0.036 236);
+  --ink: oklch(27.441% 0.024936 244.004);
+  --ink-soft: oklch(44% 0.021 236);
+  --muted: oklch(50.9961% 0.019423 237.0123);
+  --paper: oklch(99.7% 0.001 236);
+  --page: oklch(96.8% 0.006 236);
+  --well: oklch(95.8% 0.007 236);
+  --rule: oklch(88% 0.009 236);
+  --edge: oklch(60% 0.018 236);
+  --focus: oklch(50% 0.13 235);
+  --focus-dark: oklch(86% 0.09 87);
+  --link: oklch(44% 0.08 235);
+  --notice-bg: oklch(96% 0.038 87);
+  --notice-ink: oklch(40% 0.062 75);
+  --highlight: oklch(94% 0.13 95);
+  --red: oklch(48% 0.17 24);
+  --pen: oklch(55% 0.21 24);
+  --selection: oklch(90% 0.05 87);
+  --scrim: oklch(20% 0.03 236 / .48);
+  --shadow: 0 2px 8px oklch(25% 0.02 236 / .04);
+  --shadow-float: 0 8px 32px oklch(20% 0.03 236 / .16);
+  --font-body: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  --font-display: var(--font-body);
+  --font-code: Consolas, "Cascadia Code", monospace;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px;
+  --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px;
+
+  --space-20: 20px; --space-28: 28px; --space-32: 32px; --space-36: 36px; --space-44: 44px; --space-48: 48px; --space-52: 52px; --space-70: 70px; --space-72: 72px; --space-80: 80px; --space-100: 100px;
+  --radius: 8px; --radius-small: 5px;
+  --sidebar-width: 264px; --container: 1080px; --size: 17px;
+  --dur-micro: 120ms; --dur-short: 220ms; --ease-out: cubic-bezier(.16,1,.3,1);
+  --z-base: 1; --z-sidebar: 300; --z-sticky: 200; --z-controls: 350;
+  --z-dialog: 400; --z-toast: 500; --z-pointer: 600;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+html { scroll-behavior: smooth; scrollbar-color: var(--edge) var(--page); scroll-padding-top: 92px; }
+body { margin: 0; color: var(--ink); background: var(--page); font: 14px/1.6 var(--font-body); -webkit-font-smoothing: antialiased; caret-color: var(--link); }
+::selection { background: var(--selection); color: var(--ink); }
+[hidden] { display: none !important; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; white-space: nowrap; }
+button:active:not(:disabled) { transform: translateY(1px); }
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: .18em; }
+svg.icon { width: 18px; height: 18px; display: block; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); color: var(--nav-ink); background: var(--nav); padding: var(--space-28) var(--space-20) var(--space-20); display: flex; flex-direction: column; gap: var(--space-lg); z-index: var(--z-sidebar); }
+.sidebar :is(button,a):focus-visible { outline-color: var(--focus-dark); }
+.brand { display: flex; align-items: center; gap: var(--space-sm); font-size: 25px; font-weight: 700; line-height: 1.2; }
+.brand-icon { width: 36px; height: 38px; display: grid; place-items: center; color: var(--gold-ink); background: var(--gold); border-radius: var(--radius-small); font-size: 28px; font-weight: 400; }
+.brand-caption { margin: var(--space-xs) 0 0 var(--space-48); font-size: 12px; color: var(--nav-muted); }
+.intro { margin: 0; font-size: 14px; line-height: 1.75; color: var(--nav-muted); font-weight: 400; }
+.open-controls { display: grid; gap: var(--space-xs); }
+.primary { width: 100%; min-height: 44px; padding: 0 var(--space-md); border: 0; border-radius: var(--radius-small); background: var(--gold); color: var(--gold-ink); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+.primary:hover { background: var(--gold-hover); }
+.primary span:first-child { min-width: 0; white-space: nowrap; }
+.section-label { color: var(--nav-muted); font-size: 12px; margin: var(--space-xs) 0 0; }
+.open-button { width: 100%; display: flex; align-items: center; gap: var(--space-xs); min-height: 40px; padding: 0 var(--space-sm); color: var(--nav-ink); background: var(--nav); border: 1px solid var(--nav-rule); border-radius: var(--radius-small); text-align: left; font-size: 13px; }
+.open-button:hover { background: var(--nav-raised); }
+.hint { margin: var(--space-2xs) 0 0; font-size: 12px; line-height: 1.75; color: var(--nav-muted); }
+.toc-region { display: flex; flex-direction: column; gap: var(--space-sm); min-height: 100px; flex: 1; border-top: 1px solid var(--nav-rule); padding-top: var(--space-md); }
+.toc-heading { margin: 0; font-size: 12px; color: var(--nav-muted); }
+.toc { overflow-y: auto; min-height: 40px; flex: 1; scrollbar-width: thin; scrollbar-color: var(--nav-rule) var(--nav); }
+.toc a { display: block; min-height: 40px; padding: var(--space-sm) var(--space-sm); margin-bottom: var(--space-2xs); color: var(--nav-muted); font-size: 13px; line-height: 1.5; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: var(--radius-small); }
+.toc a.level-1 { color: var(--nav-ink); font-weight: 700; }
+.toc a:hover { color: var(--nav-ink); background: var(--nav-raised); }
+.toc a.active { color: var(--gold); background: var(--nav-raised); }
+.toc > .hint { display: block; padding: 0 var(--space-xs); }
+.sidebar-footer { margin-top: auto; font-size: 12px; color: var(--nav-muted); }
+.workspace { margin-left: var(--sidebar-width); min-width: 0; }
+.toolbar { position: sticky; top: 0; z-index: var(--z-sticky); min-height: 72px; padding: var(--space-sm) var(--space-32); display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); color: var(--ink); background: var(--paper); border-bottom: 1px solid var(--rule); }
+.file-name { display: flex; align-items: center; gap: var(--space-xs); min-width: 0; font-size: 13px; color: var(--ink-soft); }
+#file-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot { display: none; }
+.toolbar-actions { display: flex; align-items: center; gap: var(--space-xs); flex-shrink: 0; }
+.font-tools { display: flex; padding-right: var(--space-xs); border-right: 1px solid var(--rule); gap: var(--space-2xs); }
+.tool { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); min-height: 36px; padding: 0 var(--space-sm); color: var(--ink-soft); border: 1px solid transparent; border-radius: var(--radius-small); background: var(--paper); font-size: 12px; }
+.tool:hover { color: var(--ink); background: var(--well); }
+.font-tools .tool { min-width: 36px; padding: 0 var(--space-xs); font-size: 14px; }
+#presentation { border-color: var(--edge); color: var(--ink); }
+.mobile-menu { display: none; }
+.content-wrap { padding: 0 var(--space-36) var(--space-48); }
+.status { max-width: var(--container); margin: 0 auto; padding: var(--space-20) var(--space-3xs) var(--space-md); display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-md); color: var(--muted); font-size: 12px; line-height: 1.7; font-variant-numeric: tabular-nums; }
+#font-label { flex-shrink: 0; }
+.paper { position: relative; zoom: var(--reading-zoom,1); max-width: var(--container); min-height: calc(100vh - 162px); margin: 0 auto; padding: var(--space-52) var(--space-2xl) var(--space-80); background: var(--paper); color: var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); font-size: var(--size); line-height: 1.85; overflow-wrap: anywhere; }
+.paper :is(h1,h2,h3,h4) { min-width: 0; overflow-wrap: break-word; text-wrap: balance; font-family: var(--font-display); font-weight: 700; color: var(--ink); scroll-margin-top: 104px; }
+.paper h1 { font-size: 1.8em; line-height: 1.5; margin: 0 0 var(--space-28); }
+.paper h2 { font-size: 1.35em; line-height: 1.6; margin: var(--space-xl) 0 var(--space-20); padding-bottom: var(--space-md); border-bottom: 1px solid var(--rule); }
+.paper h3 { font-size: 1.12em; line-height: 1.6; margin: var(--space-28) 0 var(--space-sm); }
+.paper h4 { font-size: 1em; margin: var(--space-lg) 0 var(--space-sm); }
+.paper p { margin: var(--space-md) 0; text-wrap: pretty; }
+.paper strong { font-weight: 700; color: var(--ink); }
+.paper blockquote { margin: var(--space-lg) 0; padding: var(--space-sm) var(--space-20); background: var(--well); border-radius: var(--radius-small); }
+.paper blockquote p { margin: var(--space-xs) 0; }
+.paper table { border-collapse: collapse; width: 100%; display: block; overflow-x: auto; margin: var(--space-lg) 0; font-size: .86em; line-height: 1.75; font-variant-numeric: tabular-nums; }
+.paper th,.paper td { padding: var(--space-sm) var(--space-md); text-align: left; vertical-align: top; min-width: 80px; border-bottom: 1px solid var(--rule); }
+.paper th { color: var(--ink); background: var(--well); font-weight: 700; white-space: nowrap; }
+.paper hr { border: 0; border-top: 1px solid var(--rule); margin: var(--space-xl) 0; }
+.paper img { display: block; max-width: 100%; max-height: 900px; width: auto; height: auto; object-fit: contain; margin: var(--space-28) auto var(--space-sm); cursor: zoom-in; }
+.paper p:has(>img)+p:has(>em:only-child) { font-size: .83em; color: var(--muted); text-align: center; line-height: 1.7; margin-top: var(--space-xs); }
+.paper pre { padding: var(--space-20) var(--space-lg); background: var(--well); border-radius: var(--radius-small); overflow: auto; line-height: 1.65; }
+.paper code { padding: var(--space-3xs) var(--space-2xs); font-family: var(--font-code); font-size: .9em; background: var(--well); border-radius: 3px; }
+.paper pre code { background: transparent; padding: 0; }
+.paper ul,.paper ol { padding-left: 1.7em; }
+.paper mjx-container[display=true] { max-width: 100%; overflow-x: auto; overflow-y: clip; padding-block: var(--space-2xs); }
+.empty { max-width: 640px; margin: 0 auto; padding: var(--space-72) 0 var(--space-100); text-align: left; }
+.empty-mark { display: inline-grid; place-items: center; width: 56px; height: 60px; margin-bottom: var(--space-28); color: var(--gold-ink); background: var(--gold); border-radius: var(--radius); font-size: 44px; line-height: 1; }
+.empty h1 { max-width: 18em; font-size: 32px; line-height: 1.5; margin: 0 0 var(--space-20); }
+.empty p { max-width: 32em; font-size: 16px; line-height: 1.85; color: var(--ink-soft); margin: 0 0 var(--space-32); }
+.empty .empty-open { width: auto; min-height: 44px; display: inline-flex; gap: var(--space-lg); margin-top: 0; }
+.notice { max-width: var(--container); margin: 0 auto var(--space-md); padding: var(--space-sm) var(--space-md); color: var(--notice-ink); background: var(--notice-bg); border-radius: var(--radius-small); font-size: 13px; line-height: 1.75; }
+.image-error { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: var(--space-xs); min-height: 130px; padding: var(--space-lg); margin: var(--space-lg) 0 var(--space-sm); color: var(--notice-ink); background: var(--notice-bg); text-align: center; font-size: 14px; border-radius: var(--radius-small); }
+.image-error small { color: var(--notice-ink); font-size: 12px; word-break: break-all; }
+.toast { position: fixed; bottom: 24px; left: calc(50% + var(--sidebar-width) / 2); transform: translateX(-50%); max-width: min(90%,600px); padding: var(--space-md) var(--space-lg); color: var(--nav-ink); background: var(--nav); border-radius: var(--radius); z-index: var(--z-toast); font-size: 13px; box-shadow: var(--shadow-float); }
+.toast:empty { display: none; }
+dialog { border: 0; border-radius: var(--radius); padding: var(--space-20); color: var(--ink); background: var(--paper); max-width: 94%; max-height: 94vh; box-shadow: var(--shadow-float); }
+dialog::backdrop { background: var(--scrim); }
+dialog img { display: block; max-width: 100%; max-height: 78vh; object-fit: contain; }
+dialog .close-image { float: right; min-height: 36px; border: 0; background: var(--well); color: var(--ink); padding: 0 var(--space-sm); border-radius: var(--radius-small); margin-bottom: var(--space-sm); }
+dialog .close-image:hover { background: var(--rule); }
+dialog p { font-size: 13px; color: var(--muted); margin-bottom: 0; }
+.loading { cursor: progress; }
+.loading button { pointer-events: none; }
+.scrim { display: none; }
+body.presenting { background: var(--paper); }
+body.presenting :is(.sidebar,.toolbar,.status,.notice,.scrim,.toast) { display: none !important; }
+body.presenting .workspace { margin-left: 0; }
+body.presenting .content-wrap { padding: 0; }
+body.presenting .paper { max-width: 1200px; min-height: calc(100vh / var(--reading-zoom,1)); padding: var(--space-44) clamp(var(--space-lg),5vw,var(--space-72)) var(--space-70); box-shadow: none; border-radius: 0; }
+body.presenting .paper :is(h1,h2,h3,h4) { scroll-margin-top: 24px; }
+.presentation-controls { position: fixed; top: 14px; right: 18px; z-index: var(--z-controls); display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-xs); max-width: calc(100% - 24px); padding: var(--space-xs); color: var(--nav-ink); background: var(--nav); border-radius: var(--radius); opacity: 0; pointer-events: none; transition: opacity var(--dur-short) var(--ease-out); }
+.presentation-controls button { color: var(--nav-ink); min-height: 36px; border: 1px solid var(--nav-rule); background: var(--nav); border-radius: var(--radius-small); padding: 0 var(--space-sm); font-size: 12px; }
+.presentation-controls button:hover,.presentation-controls button[aria-pressed=true] { color: var(--gold-ink); background: var(--gold); }
+.presentation-controls button:focus-visible,.annotation-menu button:focus-visible { outline-color: var(--focus-dark); }
+body.show-presentation-exit .presentation-controls,.presentation-controls:hover,.presentation-controls:has(:focus-visible) { opacity: 1; pointer-events: auto; }
+.laser-dot { position: fixed; z-index: var(--z-pointer); width: 14px; height: 14px; border: 2px solid var(--paper); outline: 1px solid var(--pen); border-radius: 50%; background: var(--pen); transform: translate(-50%,-50%); pointer-events: none; }
+body.laser-active #paper,body.laser-active #paper *,body.laser-active #image-dialog img { cursor: none; user-select: none; }
+[data-reader-mark=highlight] { background: var(--highlight); color: inherit; border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+[data-reader-mark=red] { color: var(--red) !important; }
+.annotation-menu { position: fixed; z-index: var(--z-dialog); max-width: calc(100% - 20px); padding: var(--space-xs); color: var(--nav-ink); background: var(--nav); border-radius: var(--radius); box-shadow: var(--shadow-float); font-size: 13px; }
+.annotation-actions { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+.annotation-menu button { min-height: 36px; padding: 0 var(--space-sm); border: 1px solid var(--nav-rule); border-radius: var(--radius-small); color: var(--nav-ink); background: var(--nav); font-size: 12px; }
+.annotation-menu button:hover { background: var(--nav-raised); }
+.annotation-menu #annotation-yellow { color: var(--highlight); }
+.annotation-menu #annotation-red { color: var(--gold); }
+.annotation-status { display: block; min-height: 1lh; margin: var(--space-xs) var(--space-2xs) 0; font-size: 12px; color: var(--nav-muted); }
+.ink-overlay { position: absolute; inset: 0; width: 100%; height: 100%; overflow: clip; pointer-events: none; z-index: var(--z-base); }
+.ink-overlay path { fill: none; stroke: var(--pen); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+body.pen-active #paper { user-select: none; }
+body.pen-active .ink-overlay { pointer-events: auto; touch-action: none; cursor: crosshair; }
+@media (min-width: 1600px) { .content-wrap { padding-inline: var(--space-2xl); } }
+@media (max-width: 1180px) { :root { --sidebar-width: 240px; } .sidebar { padding-inline: var(--space-20); } .toolbar { gap: var(--space-md); padding-inline: var(--space-lg); } .content-wrap { padding-inline: var(--space-lg); } .paper { padding: var(--space-44) var(--space-xl) var(--space-2xl); } .tool { padding-inline: var(--space-sm); } }
+@media (max-width: 959px) {
+  .sidebar.drawer { visibility: hidden; transform: translateX(-100%); transition: transform var(--dur-short) var(--ease-out); width: 264px; padding: var(--space-28) var(--space-lg) var(--space-20); }
+  .sidebar.drawer.open { visibility: visible; transform: translateX(0); }
+  .workspace { margin-left: 0; }
+  .mobile-menu { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 36px; border: 0; color: var(--ink); background: var(--paper); border-radius: var(--radius-small); }
+  .mobile-menu:hover { background: var(--well); }
+  .scrim.visible { display: block; position: fixed; inset: 0; background: var(--scrim); z-index: var(--z-sticky); }
+  .toolbar { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: var(--space-sm); }
+  .toast { left: 50%; }
+}
+.export-short { display: none; }
+@media (max-width: 600px) {
+  .export-long { display: none; }
+  .export-short { display: inline; }
+  .toolbar { padding: var(--space-sm) var(--space-md); }
+  .toolbar-actions { grid-column: 1 / -1; justify-content: space-between; gap: var(--space-xs); }
+  .file-name { grid-column: 2 / -1; font-size: 13px; }
+  .toolbar-actions .tool { min-height: 40px; font-size: 13px; padding-inline: var(--space-sm); }
+  .tool .icon { width: 16px; height: 16px; }
+  .font-tools { padding-right: var(--space-xs); }
+  .font-tools .tool { min-width: 36px; padding-inline: var(--space-xs); }
+  #print .tool-label { display: none; }
+  #print { min-width: 40px; }
+  .content-wrap { padding: 0 var(--space-md) var(--space-28); }
+  .status { font-size: 12px; padding-block: var(--space-md) var(--space-sm); gap: var(--space-sm); }
+  .paper { padding: var(--space-32) var(--space-lg) var(--space-48); min-height: calc(100vh - 200px); border-radius: var(--radius-small); }
+  .paper h1 { font-size: 1.5em; }
+  .paper th,.paper td { padding: var(--space-sm) var(--space-sm); }
+  .paper :is(h1,h2,h3,h4) { scroll-margin-top: 140px; }
+  .empty { padding: var(--space-32) 0 var(--space-48); }
+  .empty h1 { font-size: 26px; }
+  .empty .empty-open { width: 100%; font-size: 13px; gap: var(--space-xs); }
+  .presentation-controls { top: 8px; right: 8px; gap: var(--space-2xs); }
+  .presentation-controls button { min-height: 40px; padding-inline: var(--space-xs); }
+  .annotation-menu button { min-height: 40px; }
+  dialog { padding: var(--space-md); }
+}
+@media (max-width: 400px) { #presentation .icon, #export .icon { display: none; } .toolbar-actions .tool { padding-inline: var(--space-xs); } .font-tools .tool { min-width: 36px; padding-inline: var(--space-2xs); } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { transition: none !important; animation: none !important; }
+}
+@media print {
+  body { background: var(--paper); }
+  .sidebar,.toolbar,.status,.notice,.toast,dialog,.scrim,.presentation-controls,.annotation-menu,.laser-dot { display: none !important; }
+  .workspace { margin: 0; }
+  .content-wrap { padding: 0; }
+  .paper,body.presenting .paper { zoom: 1; box-shadow: none; border-radius: 0; padding: 0; max-width: none; min-height: 0; font-size: 11pt; line-height: 1.75; }
+  .paper h1 { font-size: 22pt; }
+  .paper h2,.paper h3 { break-after: avoid; }
+  .paper img { max-height: 230mm; break-inside: avoid; }
+  .paper table { display: table; font-size: 10pt; }
+  .paper a { color: inherit; text-decoration: none; }
+  .paper tr { break-inside: avoid; }
+  .paper pre { white-space: pre-wrap; }
+  .ink-overlay { display: none !important; }
+  @page { size: A4; margin: 18mm; }
+}
 </style>
 </head>
 <body>
 <div class="scrim" id="scrim"></div>
-<aside class="sidebar" id="sidebar" aria-label="阅读导航">
-  <div class="brand"><span class="brand-icon">文</span><span>文阅</span></div>
-  <div class="brand-caption">MARKDOWN READER</div>
-  <h2 class="intro">把文件打开，<br>把注意力留给内容。</h2>
-  <button class="primary" id="open-main"><span id="open-label">打开你的组会汇报</span><span aria-hidden="true">↗</span></button>
-  <div class="section-label">打开本地文档</div>
-  <button class="open-button" id="open-file">＋ 选择 MD / ZIP 文件</button>
-  <button class="open-button" id="open-folder">▣ 选择含配图的文件夹</button>
-  <p class="hint" id="open-hint">有配图时，推荐直接选择 ZIP 包，或选择包含 MD 和 assets 的完整文件夹。文件在本机读取，不会上传到云端。</p>
-  <nav class="toc" id="toc" aria-label="章节目录"><span class="hint">打开文档后，这里会显示章节目录。</span></nav>
-  <div class="sidebar-footer">专注阅读 · 清晰呈现</div>
+<aside class="sidebar drawer" id="sidebar" aria-label="阅读导航">
+  <div class="identity">
+    <div class="brand"><span class="brand-icon">文</span><span>文阅</span></div>
+    <div class="brand-caption">本地 Markdown 阅读器</div>
+  </div>
+  <p class="intro">把文件打开，<br>把注意力留给内容。</p>
+  <div class="open-controls">
+    <button type="button" class="primary" id="open-main"><span id="open-label">打开本地文档</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+    <div class="section-label">打开本地文档</div>
+    <button type="button" class="open-button" id="open-file"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16h14V8zM14 3v5h5M8 12h8M8 16h5"/></svg><span>选择 MD / ZIP 文件</span></button>
+    <button type="button" class="open-button" id="open-folder"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h7l2 2h9v13H3zM3 10h18"/></svg><span>选择含配图的文件夹</span></button>
+    <p class="hint" id="open-hint">有配图时，推荐直接选择 ZIP 包，或选择包含 MD 和 assets 的完整文件夹。文件在本机读取，不会上传到云端。</p>
+  </div>
+  <div class="toc-region">
+    <p class="toc-heading">章节目录</p>
+    <nav class="toc" id="toc" aria-label="章节目录"><span class="hint">打开文档后，这里会显示章节目录。</span></nav>
+  </div>
+  <div class="sidebar-footer">专注阅读，清晰呈现</div>
 </aside>
 <div class="workspace">
   <header class="toolbar">
-    <button class="mobile-menu" id="menu" aria-label="展开章节目录">☰</button>
-    <div class="file-name" id="file-name"><span class="dot"></span><span id="file-label">尚未打开文档</span></div>
+    <button type="button" class="mobile-menu" id="menu" aria-label="展开章节目录" aria-controls="sidebar" aria-expanded="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    <div class="file-name" id="file-name"><span class="dot"></span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16h14V8zM14 3v5h5M8 12h8M8 16h5"/></svg><span id="file-label">尚未打开文档</span></div>
     <div class="toolbar-actions">
-      <button class="tool" id="font-down" aria-label="缩小字号">A−</button>
-      <button class="tool" id="font-up" aria-label="增大字号">A＋</button>
-      <button class="tool" id="presentation" title="放映（F5），按 Esc 退出" aria-keyshortcuts="F5" aria-pressed="false" disabled>放映</button>
-      <button class="tool" id="export" disabled>导出含图片 HTML</button>
-      <button class="tool" id="print" disabled>打印</button>
+      <div class="font-tools" role="group" aria-label="阅读字号">
+        <button type="button" class="tool" id="font-down" aria-label="缩小字号">A−</button>
+        <button type="button" class="tool" id="font-up" aria-label="增大字号">A＋</button>
+      </div>
+      <button type="button" class="tool" id="presentation" title="放映（F5），按 Esc 退出" aria-keyshortcuts="F5" aria-pressed="false" disabled><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7z"/></svg><span>放映</span></button>
+      <button type="button" class="tool" id="export" title="导出含图片 HTML" disabled><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg><span class="export-long">导出含图片 HTML</span><span class="export-short">导出 HTML</span></button>
+      <button type="button" class="tool" id="print" title="打印" aria-label="打印" disabled><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H3V9h18v8h-4M7 14h10v7H7zM17 11h1"/></svg><span class="tool-label">打印</span></button>
     </div>
   </header>
   <main class="content-wrap">
     <div class="status"><span id="status" role="status">一份文档，一段安静的阅读时间。</span><span id="font-label">17 px</span></div>
     <div class="notice" id="notice" hidden></div>
     <article class="paper" id="paper">
-      <div class="empty"><div class="empty-mark">文</div><h1>从一份好读的文档开始。</h1><p>打开 Markdown，带上它的配图。<br>论文、公式、表格和思路，都有合适的位置。</p><button class="primary empty-open" id="open-empty"><span>选择一份 Markdown / ZIP</span><span>↗</span></button></div>
+      <div class="empty"><div class="empty-mark">文</div><h1>从一份好读的文档开始。</h1><p>打开 Markdown，带上它的配图。<br>文字、公式、图片和表格，清晰呈现。</p><button type="button" class="primary empty-open" id="open-empty"><span>选择一份 Markdown / ZIP</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
     </article>
   </main>
 </div>
-<dialog id="image-dialog"><button class="close-image" id="close-image">关闭 ×</button><img id="large-image" alt=""><p id="image-caption"></p></dialog>
+<dialog id="image-dialog"><button type="button" class="close-image" id="close-image">关闭 ×</button><img id="large-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt=""><p id="image-caption"></p></dialog>
 <div class="toast" id="toast" role="status"></div>
 <div class="presentation-controls" id="presentation-controls" role="toolbar" aria-label="放映工具" hidden>
-  <button id="zoom-out" title="缩小（Ctrl＋滚轮向下）" aria-label="缩小页面">−</button>
-  <button id="zoom-reset" title="恢复100%（Ctrl＋0）">100%</button>
-  <button id="zoom-in" title="放大（Ctrl＋滚轮向上）" aria-label="放大页面">＋</button>
-  <button id="laser-toggle" title="激光笔开关（L）" aria-pressed="false">激光笔 · L</button>
-  <button id="pen-toggle" title="按P开关画笔；按住鼠标左键拖动可留笔迹" aria-pressed="false">画笔 · P</button>
-  <button id="ink-undo" title="撤销上一项笔迹或文字批注（Ctrl＋Z）" disabled>撤销</button>
-  <button id="ink-clear" title="清除所有手写笔迹，可以撤销" disabled>清除笔迹</button>
-  <button class="presentation-exit" id="presentation-exit">退出 · Esc</button>
+  <button type="button" id="zoom-out" title="缩小（Ctrl＋滚轮向下）" aria-label="缩小页面">−</button>
+  <button type="button" id="zoom-reset" title="恢复100%（Ctrl＋0）">100%</button>
+  <button type="button" id="zoom-in" title="放大（Ctrl＋滚轮向上）" aria-label="放大页面">＋</button>
+  <button type="button" id="laser-toggle" title="激光笔开关（L）" aria-pressed="false">激光笔（L）</button>
+  <button type="button" id="pen-toggle" title="按P开关画笔；按住鼠标左键拖动可留笔迹" aria-pressed="false">画笔（P）</button>
+  <button type="button" id="ink-undo" title="撤销上一项笔迹或文字批注（Ctrl＋Z）" disabled>撤销</button>
+  <button type="button" id="ink-clear" title="清除所有手写笔迹，可以撤销" disabled>清除笔迹</button>
+  <button type="button" class="presentation-exit" id="presentation-exit">退出（Esc）</button>
 </div>
 <div class="laser-dot" id="laser-dot" aria-hidden="true" hidden></div>
 <div class="annotation-menu" id="annotation-menu" role="toolbar" aria-label="文字批注" hidden>
   <div class="annotation-actions">
-    <button id="annotation-yellow">黄色高亮</button><button id="annotation-red">文字标红</button>
-    <button id="annotation-undo" title="撤销本次阅读中的上一项批注（Ctrl＋Z）" disabled>撤销</button>
-    <button id="annotation-clear">清除批注</button><button id="annotation-close" aria-label="关闭批注工具">×</button>
+    <button type="button" id="annotation-yellow">黄色高亮</button><button type="button" id="annotation-red">文字标红</button>
+    <button type="button" id="annotation-undo" title="撤销本次阅读中的上一项批注（Ctrl＋Z）" disabled>撤销</button>
+    <button type="button" id="annotation-clear">清除批注</button><button type="button" id="annotation-close" aria-label="关闭批注工具">×</button>
   </div><span class="annotation-status" id="annotation-status">批注自动保存在本机</span>
 </div>
 <script>
@@ -168,14 +368,14 @@ function cleanHTML(source){
   });
   return template.innerHTML;
 }
-function closeMenu(){ $('sidebar').classList.remove('open');$('scrim').classList.remove('visible'); }
+function closeMenu(){ $('sidebar').classList.remove('open');$('scrim').classList.remove('visible');$('menu').setAttribute('aria-expanded','false'); }
 function buildTOC(){
   if(observer)observer.disconnect();
   const nav=$('toc');nav.replaceChildren();
   const headings=[...$('paper').querySelectorAll('h1,h2')];
   headings.forEach((heading,index)=>{
     if(!heading.id)heading.id='chapter-'+index;
-    const link=document.createElement('a');link.href='#'+heading.id;link.textContent=heading.textContent;link.className='level-'+heading.tagName.slice(1);
+    const link=document.createElement('a');link.href='#'+heading.id;link.textContent=heading.textContent;link.title=heading.textContent;link.className='level-'+heading.tagName.slice(1);
     link.addEventListener('click',closeMenu);nav.append(link);
   });
   if(!headings.length)nav.textContent='这份文档没有章节标题。';
@@ -193,7 +393,7 @@ function markBrokenImages(){
     const showError=()=>{
       const box=document.createElement('span');box.className='image-error';
       const title=document.createElement('span');title.textContent=img.alt||'图片暂时无法显示';
-      const detail=document.createElement('small');detail.textContent=(img.dataset.originalSrc||'')+' · '+(img.dataset.imageError||'图片损坏或加载失败');
+      const detail=document.createElement('small');detail.textContent=(img.dataset.originalSrc||'')+'：'+(img.dataset.imageError||'图片损坏或加载失败');
       box.append(title,detail);img.replaceWith(box);
     };
     if(img.dataset.imageError){showError();return;}
@@ -217,9 +417,9 @@ function showDocument(doc){
   if(window.MathJax?.typesetClear)MathJax.typesetClear([$('paper')]);
   $('paper').innerHTML=current.html;
   $('file-label').textContent=doc.name;$('file-name').title=doc.source||doc.name;
-  $('open-label').textContent='打开另一份文档';document.title=doc.name+' · 文阅';
+  $('open-label').textContent='打开另一份文档';document.title=doc.name+' - 文阅';
   const available=doc.images-(doc.warnings||[]).length;
-  $('status').textContent='已打开 · '+available+'/'+doc.images+' 张配图可读取 · '+doc.characters.toLocaleString()+' 字符';
+  $('status').textContent='已打开：'+available+'/'+doc.images+' 张配图可读取，'+doc.characters.toLocaleString()+' 字符';
   const warnings=doc.warnings||[];$('notice').hidden=!warnings.length;
   $('notice').textContent=warnings.length?'有 '+warnings.length+' 张配图需要检查：'+warnings.map(w=>w.path+'（'+w.reason+'）').join('；'):'';
   $('export').disabled=false;$('print').disabled=false;$('presentation').disabled=false;
@@ -242,7 +442,7 @@ function exportHTML(){
   clone.querySelector('#paper').replaceChildren();
   const payload=clone.ownerDocument.createElement('script');payload.id='export-document';payload.type='application/json';payload.textContent=JSON.stringify({...current,html:cleanHTML(annotationSnapshot(true))}).replace(/</g,'\\u003c');clone.querySelector('head').append(payload);
   clone.querySelector('#toast').textContent='';clone.querySelector('#image-dialog').removeAttribute('open');clone.querySelector('#large-image').removeAttribute('src');clone.querySelector('#sidebar').classList.remove('open');clone.querySelector('#scrim').classList.remove('visible');clone.querySelector('body').classList.remove('loading');
-  clone.querySelector('body').classList.remove('presenting','show-presentation-exit');clone.querySelector('#presentation-controls').hidden=true;clone.querySelector('#annotation-menu').hidden=true;clone.querySelector('#laser-dot').hidden=true;clone.querySelector('body').classList.remove('laser-active','pen-active');clone.querySelector('#pen-toggle').setAttribute('aria-pressed','false');clone.querySelector('#pen-toggle').textContent='画笔 · P';clone.style.removeProperty('--reading-zoom');clone.querySelector('#zoom-reset').textContent='100%';clone.querySelector('#laser-toggle').setAttribute('aria-pressed','false');clone.querySelector('#laser-toggle').textContent='激光笔 · L';clone.querySelector('#presentation').setAttribute('aria-pressed','false');
+  clone.querySelector('body').classList.remove('presenting','show-presentation-exit');clone.querySelector('#presentation-controls').hidden=true;clone.querySelector('#annotation-menu').hidden=true;clone.querySelector('#laser-dot').hidden=true;clone.querySelector('body').classList.remove('laser-active','pen-active');clone.querySelector('#pen-toggle').setAttribute('aria-pressed','false');clone.querySelector('#pen-toggle').textContent='画笔（P）';clone.style.removeProperty('--reading-zoom');clone.querySelector('#zoom-reset').textContent='100%';clone.querySelector('#laser-toggle').setAttribute('aria-pressed','false');clone.querySelector('#laser-toggle').textContent='激光笔（L）';clone.querySelector('#presentation').setAttribute('aria-pressed','false');
   const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=current.name.replace(/\.md$/i,'')+'_文阅.html';link.click();setTimeout(()=>URL.revokeObjectURL(url),10000);toast('已导出阅读文件，本地配图已嵌入 HTML。');
 }
 // 缩放、指示点及批注均在页面本地执行；只有批注操作触发保存。
@@ -268,7 +468,7 @@ function setLaser(active){
   laserActive=!!active&&!!current;
   document.body.classList.toggle('laser-active',laserActive);
   $('laser-toggle').setAttribute('aria-pressed',String(laserActive));
-  $('laser-toggle').textContent=laserActive?'激光笔：开 · L':'激光笔 · L';
+  $('laser-toggle').textContent=laserActive?'激光笔：开 · L':'激光笔（L）';
   $('laser-dot').hidden=true;
   if(laserActive){selectionRange=null;$('annotation-menu').hidden=true;}
   if(presenting)revealPresentationExit();
@@ -503,7 +703,7 @@ function setPen(active){
   penActive=!!active&&!!current;
   document.body.classList.toggle('pen-active',penActive);
   $('pen-toggle').setAttribute('aria-pressed',String(penActive));
-  $('pen-toggle').textContent=penActive?'画笔：开 · P':'画笔 · P';
+  $('pen-toggle').textContent=penActive?'画笔：开 · P':'画笔（P）';
   if(penActive){window.getSelection().removeAllRanges();selectionRange=null;$('annotation-menu').hidden=true;renderInk();}
   if(presenting)revealPresentationExit();
 }
@@ -554,7 +754,7 @@ window.addEventListener('resize',()=>{if(current&&!inkDrawing)renderInk();});
 $('open-main').onclick=$('open-file').onclick=()=>openDocument('file');
 if($('open-empty'))$('open-empty').onclick=()=>openDocument('file');
 $('open-folder').onclick=()=>openDocument('folder');$('font-down').onclick=()=>setFont(-1);$('font-up').onclick=()=>setFont(1);$('print').onclick=()=>window.print();$('export').onclick=exportHTML;
-$('menu').onclick=()=>{$('sidebar').classList.toggle('open');$('scrim').classList.toggle('visible');};$('scrim').onclick=closeMenu;
+$('menu').onclick=()=>{$('sidebar').classList.toggle('open');$('scrim').classList.toggle('visible');$('menu').setAttribute('aria-expanded',String($('sidebar').classList.contains('open')));};$('scrim').onclick=closeMenu;
 $('image-dialog').addEventListener('close',()=>{$('laser-dot').hidden=true;document.body.append($('laser-dot'));});
 $('close-image').onclick=()=>$('image-dialog').close();$('image-dialog').addEventListener('click',event=>{if(event.target===$('image-dialog'))$('image-dialog').close();});
 $('mathjax-script').addEventListener('load',typeset);$('mathjax-script').addEventListener('error',()=>{if(current&&/\$|\\\(|\\\[/.test(current.html))toast('公式排版需要联网加载 MathJax；正文和本地图片可离线阅读。');});
